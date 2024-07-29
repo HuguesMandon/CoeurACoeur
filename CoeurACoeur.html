@@ -1,0 +1,189 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Coeur a coeur</title>
+<meta charset="utf-8">
+<noscript>
+<link rel="stylesheet" href="css/5grid/core.css">
+<link rel="stylesheet" href="css/5grid/core-desktop.css">
+<link rel="stylesheet" href="css/5grid/core-1200px.css">
+<link rel="stylesheet" href="css/5grid/core-noscript.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style-desktop.css">
+</noscript>
+<script src="css/5grid/jquery.js"></script>
+<script src="css/5grid/init.js?use=mobile,desktop,1000px&amp;mobileUI=1&amp;mobileUI.theme=none"></script>
+<script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+<script src="js/peerNetworking.js"></script>
+<script src="js/profilesUtilities.js"></script>
+<script>
+	peerNetworkingInitialisation();
+	localStorageInitialisation();
+</script>
+<!--[if IE 9]>
+<link rel="stylesheet" href="css/style-ie9.css">
+<![endif]-->
+</head>
+<body class="homepage">
+<div class="5grid-layout">
+  <div class="row">
+    <div id="banner" class="12u">
+      <div class="container"><a href="#"><img src="images/banner.png" alt=""></a></div>
+    </div>
+  </div>
+</div>
+<div id="header-wrapper">
+  <header id="header">
+    <div class="5grid-layout">
+      <div class="row">
+        <div class="4u" id="logo">
+          <h1><a href="#" class="mobileUI-site-name">Coeur a coeur</a></h1>
+          <p><!--slogan--></p>
+        </div>
+        <div class="8u" id="menu">
+          <nav class="mobileUI-site-nav">
+            <ul>
+              <li class="current_page_item"><a href="#browse" onclick="generateProfilesList()">Browse</a></li>
+			  <li><a href="#profile" onclick="fillProfile();">Your profile</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+</div>
+
+<div id="wrapper">
+  <div class="items">
+	<div class="individual_item" id="browse">
+		<div class="5grid-layout" id="marketing">
+		  <div class="row divider">
+			<p>Fair warning, you only see people that are online, it's on purpose. So, if you like someone, try to send them a chat, they might not be online later...</p>
+		  </div>
+		  <div class="row divider">
+			<!-- Automatically generate list from peers-->
+			<!-- Needs to have a buffer on how many profiles are shown-->
+			<p class="button-style2" onclick="showHide('filters')"><a>Show filters</a></p>
+			<div id="filters" style="display:none;">
+				<p>&nbsp;</p><span><label for="research_gender">Gender: </label><span id="research_gender" contenteditable >♀️ ♂️ ⚧️</span></span>
+			</div>
+			<script>initializeFilters();</script>
+			<div id="profileList">
+			If this message is showing, something went wrong...
+			</div>
+		  </div>
+		</div>
+	</div>
+	<div class="individual_item" id="profile">
+		<div class="5grid-layout">
+			<div class="row">
+			  <div class="3u" id="about_me">
+				<section>
+				  <ul class="style1">
+					<li class="first"><h2 style="display: flex;justify-content: space-between;">
+					<span id="peer_id" hidden></span>
+					<span id="name"></span>
+					<span id="gender" contenteditable="false" style="cursor: help;"  title="use one of the following emojis for gender, otherwise you might not appear to other people: ♀️ ♂️ ⚧️"></span>
+					</h2></li>
+					<li>💼 <span id="work" contenteditable="false"></span></li>
+					<li>🏙️ <span id="city" contenteditable="false"></span></li>
+					<li>🎂 <span id="birthday" contenteditable="false"></span></li>
+				  </ul>
+				</section>
+			  </div>
+			
+			  <div class="3u" id="looking_for">
+				<section>
+				  <h2>Looking for:</h2>
+				  
+				  <ul class="style6" id="filters_list">
+					<!--<li class="first">
+					  <h3>Mauris vulputate dolor sit amet</h3>
+					  <p><a href="#">Donec leo, vivamus fermentum nibh in augue praesent a lacus at urna congue rutrum.</a></p>
+					</li>
+					<li>
+					  <h3>Fusce ultrices fringilla metus</h3>
+					  <p><a href="#">Donec leo, vivamus fermentum nibh in augue praesent a lacus at urna congue rutrum.</a></p>
+					</li>
+					<li>
+					  <h3>Donec dictum metus in sapien</h3>
+					  <p><a href="#">Donec leo, vivamus fermentum nibh in augue praesent a lacus at urna congue rutrum.</a></p>
+					</li>-->
+				  </ul>
+				</section>
+			  </div>
+			  
+			  <div class="3u" id="short_speak">
+				<section>
+				  <h2 style="cursor: help;" title="This is what appears on the browsing page of other people">About me:</h2>
+				  <p>&nbsp;</p>
+				  <p id="bio_short"></p>
+				</section>
+			  </div>
+			</div>
+		  </div>
+	  <div id="page">
+		<div class="5grid-layout">
+		  <div class="row mobileUI-main-content" id="content">
+			<div class="12u">
+			  <section>
+				<div class="post">
+				  <h2>Speak your mind here:</h2>
+				  <p id="long_bio"></p>
+				</div>
+			  </section>
+			</div>
+		  </div>
+		</div>
+		<div class="5grid-layout">
+		  <div class="row mobileUI-main-content" id="content">
+			<div class="12u">
+			  <section>
+				<div class="post" id="tchat" style="width:100%">
+					<p class="button-style2" onclick="tchat()"><a>Tchat!</a></p>
+					<div id="tchat_functions" style="display:none">
+						<ul class="tchat" id="tchat_content"></ul>
+						<p>&nbsp;</p>
+						<span style="display:flex;">
+							<p class="tchat" style="height:100px" id="tchat_box" contenteditable></p><p class="button-style2" onclick="sendMessage()">&nbsp;<a>Send</a></p>
+						</span>
+					</div>
+				</div>
+			  </section>
+			</div>
+		  </div>
+		</div>
+	  </div>
+	</div>
+  </div>
+  <div>
+    <div class="5grid-layout 5grid" id="page">
+      <div class="row mobileUI-main-content" id="content">
+        <div class="12u">
+          <section>
+            <div class="post">
+              <h2>About Coeur a Coeur</h2>
+              <p>Coeur a coeur aims to be an open source dating site based around peer-to-peer, using only web pages.  </p>
+              <p>&nbsp;</p>
+              <p>What does this mean? You can review (or even modify, if you so wish) the matching algorithms, the code and everything, to be sure the goal of the site is really to help you find someone, and nothing else.
+				It also means you only need to download the source and launch the CoeurACoeur.html page to have it running, no need for a server. Well, I'm still working on that...
+			  </p>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div class="5grid-layout" id="copyright">
+    <div class="row">
+      <div class="12u">
+        <p>&copy; Coeur a coeur | HTML Template from <a href="http://html5templates.com/">HTML5Templates.com</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
